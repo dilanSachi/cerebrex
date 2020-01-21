@@ -13,7 +13,7 @@ class HiruSinhalaCrawler(scrapy.Spider):
         'http://www.hirunews.lk/tamil/'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, docId):
         obj = {  
             'Header': header,
             'Time': time,
@@ -25,7 +25,7 @@ class HiruSinhalaCrawler(scrapy.Spider):
         #     'Content': content
         # })
 
-        with open("./data/hiru_sinhala/hiru_sinhala_" + time + ".json", 'w', encoding="utf8") as outfile:  
+        with open("./data/hiru_news/" + docId + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
@@ -42,4 +42,5 @@ class HiruSinhalaCrawler(scrapy.Spider):
         header = response.css("div.lts-cntp2 ::text").getall()
         content = response.css("div.lts-txt2 ::text").getall()
         time = response.css('div.time ::text').get()
-        self.writeToJson(header, time, content)
+        docId = response.url.split("/")[4]
+        self.writeToJson(header, time, content, docId)

@@ -1,14 +1,14 @@
 import scrapy
 import json
 
-class HiruEnglishCrawler(scrapy.Spider):
-    name = "HiruEnglishCrawler"
+class NewsFirstEnglishCrawler(scrapy.Spider):
+    name = "NewsFirstEnglishCrawler"
 
     data = {}
     data['news'] = []
 
     start_urls = [
-        'http://www.hirunews.lk/',
+        'https://www.newsfirst.lk/sinhala/latest-news/',
     ]
 
     def writeToJson(self, header, time, content, docId):
@@ -27,15 +27,15 @@ class HiruEnglishCrawler(scrapy.Spider):
             json.dump(obj, outfile)
 
     def parse(self, response):
-        for link in response.css('div.lts-cntp ::attr(href)').getall():
-            if link is not None:
-                yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
-        print(response.css('div.pagi ::attr(title)').getall()[-1])
-        titlelist = response.css('div.pagi ::attr(title)').getall()
-        linklist = response.css('div.pagi ::attr(href)').getall()
-        for i in range(0, len(titlelist)):
-            if (titlelist[i] == 'next page'):
-                yield scrapy.Request(linklist[i], self.parse)
+        newslist = response.css('div.sub-1-news-block ::attr(href)').getall()
+        for i in range(0, len(newslist), 2):
+            if newslist[i] is not None:
+                yield scrapy.Request(response.urljoin(newslist[i]), callback = self.parseNews)
+        newslist2 = response.css('div.main-news-heading ::attr(href)').getall()
+        for i in range(0, len(newslist2)):
+            if newslist2[i] is not None:
+                yield scrapy.Request(response.urljoin(newslist2[i]), callback = self.parseNews)
+        yield scrapy.Request(response.css('ul.pagination ::attr(title)').getall()[-1], self.parse)
 
     def parseNews(self, response):
         header = response.css("div.lts-cntp2 ::text").getall()
