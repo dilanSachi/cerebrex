@@ -9,9 +9,11 @@ class NewsFirstEnglishCrawler(scrapy.Spider):
 
     start_urls = [
         'https://www.newsfirst.lk/sinhala/latest-news/',
+        'https://www.newsfirst.lk/latest-news/',
+        'https://www.newsfirst.lk/tamil/latest-news/',
     ]
 
-    def writeToJson(self, header, time, content, docId):
+    def writeToJson(self, header, time, content):
         obj = {  
             'Header': header,
             'Time': time,
@@ -23,8 +25,8 @@ class NewsFirstEnglishCrawler(scrapy.Spider):
         #     'Content': content
         # })
 
-        with open("./data/hiru_news/" + docId + ".json", 'a') as outfile:  
-            json.dump(obj, outfile)
+        with open("./data/news_first/" + header[0] + ".json", 'a', encoding="utf8") as outfile:  
+            json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
         newslist = response.css('div.sub-1-news-block ::attr(href)').getall()
@@ -35,11 +37,10 @@ class NewsFirstEnglishCrawler(scrapy.Spider):
         for i in range(0, len(newslist2)):
             if newslist2[i] is not None:
                 yield scrapy.Request(response.urljoin(newslist2[i]), callback = self.parseNews)
-        yield scrapy.Request(response.css('ul.pagination ::attr(title)').getall()[-1], self.parse)
+        yield scrapy.Request(response.css("a.next ::attr(href)").get(), self.parse)
 
     def parseNews(self, response):
-        header = response.css("div.lts-cntp2 ::text").getall()
-        content = response.css("div.lts-txt2 ::text").getall()
-        time = response.css('div.time ::text').get()
-        docId = response.url.split("/")[3]
-        self.writeToJson(header, time, content, docId)
+        header = response.css("h1.text-left ::text").getall()
+        content = response.css("div.w-300 p ::text").getall()
+        time = response.css('p.artical-new-byline ::text').getall()[1:]
+        self.writeToJson(header, time, content)
