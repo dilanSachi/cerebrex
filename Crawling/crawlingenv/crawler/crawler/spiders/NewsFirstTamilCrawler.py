@@ -2,14 +2,14 @@ import scrapy
 import json
 from pathlib import Path
 
-class NewsFirstEnglishCrawler(scrapy.Spider):
-    name = "NewsFirstEnglishCrawler"
+class NewsFirstTamilCrawler(scrapy.Spider):
+    name = "NewsFirstTamilCrawler"
 
     data = {}
     data['news'] = []
 
     start_urls = [
-        'https://www.newsfirst.lk/latest-news/'
+        'https://www.newsfirst.lk/tamil/latest-news/'
     ]
 
     def writeToJson(self, header, time, content):
@@ -24,9 +24,9 @@ class NewsFirstEnglishCrawler(scrapy.Spider):
         #     'Content': content
         # })
 
-        Path("./data/news_first/english").mkdir(parents=True, exist_ok=True)
+        Path("./data/news_first/tamil").mkdir(parents=True, exist_ok=True)
 
-        with open("./data/news_first/english/" + header[0] + ".json", 'a', encoding="utf8") as outfile:  
+        with open("./data/news_first/tamil/" + header[0] + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
