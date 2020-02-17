@@ -10,4 +10,5 @@
 
 **Wikipedia**
 
-*Still on development*
+*Done*
+*Only able to crawl through the sinhala documents which have an English or Tamil translation link in the document page*
