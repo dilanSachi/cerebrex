@@ -6,8 +6,8 @@ from urllib import parse
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
-class WikipediaCrawler(scrapy.Spider):
-    name = "WikipediaCrawler"
+class WikipediaSinhalaCrawler(scrapy.Spider):
+    name = "WikipediaSinhalaCrawler"
 
     data = {}
     data['news'] = []
@@ -57,5 +57,4 @@ class WikipediaCrawler(scrapy.Spider):
         content = response.css("div.mw-content-ltr ::text").getall()
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
-        
         self.writeToJson(header, content, name)

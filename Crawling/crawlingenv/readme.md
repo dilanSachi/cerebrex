@@ -12,3 +12,4 @@
 
 *Done*
 *Only able to crawl through the sinhala documents which have an English or Tamil translation link in the document page*
+*WikipediaSinhalaCrawler will crawl thorugh all the available sinhala pages and also it will crawl the respective English and Tamil pages if they are available*
