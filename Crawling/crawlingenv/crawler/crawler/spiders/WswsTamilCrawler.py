@@ -41,7 +41,7 @@ class WswsTamilCrawler(scrapy.Spider):
         time = response.css("#article h5 ::text").extract()[-1]
         try:
             engLink = response.css("#article h4 ::attr(href)").getall()
-            name = str(time) + str(randrange(1000000))
+            name = str(randrange(1000000))
             if len(engLink) > 0:
                 yield scrapy.Request(response.urljoin(engLink[0] + "?" + parse.urlencode({"name": name})), callback=self.parseEngNews)
         except Exception:

@@ -24,7 +24,7 @@ class WswsEnglishCrawler(scrapy.Spider):
         }
 
         Path("./data/wsws/english").mkdir(parents=True, exist_ok=True)
-        with open("./data/wsws/english/" + str(time) + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as outfile:  
+        with open("./data/wsws/english/" + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):

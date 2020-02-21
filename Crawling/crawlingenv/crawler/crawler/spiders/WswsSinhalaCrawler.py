@@ -45,7 +45,7 @@ class WswsSinhalaCrawler(scrapy.Spider):
         content = response.css("div.clearfix p ::text").getall()[1:]
         time = response.css('div.clearfix p.info ::text').getall()[-1]
         engLink = response.css("div.category h5 a ::attr(href)").getall()
-        name = str(time) + str(randrange(1000000))
+        name = str(randrange(1000000))
         if len(engLink) > 0:
             yield scrapy.Request(response.urljoin(engLink[0] + "?" + parse.urlencode({"name": name})), callback=self.parseEngNews)
         self.writeToJson(header, time, content, name)
