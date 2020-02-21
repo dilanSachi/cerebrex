@@ -8,7 +8,11 @@ class HiruEnglishCrawler(scrapy.Spider):
     data['news'] = []
 
     start_urls = [
-        'http://www.hirunews.lk/',
+        'http://www.hirunews.lk/sinhala/international-news.php',
+        'http://www.hirunews.lk/sinhala/local-news.php',
+        'http://www.hirunews.lk/sinhala/entertainment/',
+        '',
+        ''
     ]
 
     def writeToJson(self, header, time, content, docId):
@@ -27,10 +31,9 @@ class HiruEnglishCrawler(scrapy.Spider):
             json.dump(obj, outfile)
 
     def parse(self, response):
-        for link in response.css('div.lts-cntp ::attr(href)').getall():
+        for link in response.css('div.all-section-tittle ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
-        print(response.css('div.pagi ::attr(title)').getall()[-1])
         titlelist = response.css('div.pagi ::attr(title)').getall()
         linklist = response.css('div.pagi ::attr(href)').getall()
         for i in range(0, len(titlelist)):
@@ -38,8 +41,27 @@ class HiruEnglishCrawler(scrapy.Spider):
                 yield scrapy.Request(linklist[i], self.parse)
 
     def parseNews(self, response):
-        header = response.css("div.lts-cntp2 ::text").getall()
-        content = response.css("div.lts-txt2 ::text").getall()
-        time = response.css('div.time ::text').get()
+        header = response.css("div.container center h1 ::text").get()
+        time = response.css("div.container center p ::text").get()
+        content = response.css("#article-phara ::text").get(all)
         docId = response.url.split("/")[3]
         self.writeToJson(header, time, content, docId)
+
+
+    # def parse(self, response):
+    #     for link in response.css('div.lts-cntp ::attr(href)').getall():
+    #         if link is not None:
+    #             yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
+    #     print(response.css('div.pagi ::attr(title)').getall()[-1])
+    #     titlelist = response.css('div.pagi ::attr(title)').getall()
+    #     linklist = response.css('div.pagi ::attr(href)').getall()
+    #     for i in range(0, len(titlelist)):
+    #         if (titlelist[i] == 'next page'):
+    #             yield scrapy.Request(linklist[i], self.parse)
+
+    # def parseNews(self, response):
+    #     header = response.css("div.lts-cntp2 ::text").getall()
+    #     content = response.css("div.lts-txt2 ::text").getall()
+    #     time = response.css('div.time ::text').get()
+    #     docId = response.url.split("/")[3]
+    #     self.writeToJson(header, time, content, docId)
