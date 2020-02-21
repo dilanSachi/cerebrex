@@ -1,2 +1,3 @@
 /Crawling/crawlingenv/crawler/data
 /Crawling/crawlingenv/lib
+/Crawling/crawlingenv/crawler/crawler/spiders/__pycache__
