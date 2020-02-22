@@ -3,8 +3,8 @@ import json
 import io
 from pathlib import Path
 
-class HiruSinhalaCrawler(scrapy.Spider):
-    name = "HiruSinhalaCrawler"
+class HiruSinhalaTamilCrawler(scrapy.Spider):
+    name = "HiruSinhalaTamilCrawler"
 
     data = {}
     data['news'] = []
