@@ -26,7 +26,7 @@ class NewsFirstEnglishCrawler(scrapy.Spider):
 
         Path("./data/news_first/english").mkdir(parents=True, exist_ok=True)
 
-        with open("./data/news_first/english/" + header[0] + ".json", 'a', encoding="utf8") as outfile:  
+        with open("./data/news_first/english/" + str(randrange(10000000)) + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):

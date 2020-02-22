@@ -22,9 +22,7 @@
 
 *Contains exact document matches and all 3 tranlsations are stored in one file*
 
-*Sinhala - *
-*English - *
-*Tamil - *
+*count - 125107*
 
 **Army**
 
@@ -47,7 +45,7 @@
 
 **ITN**
 
-*Sinhala - *
+*Sinhala - 25101*
 *English - 10191*
 *Tamil - 7775*
 
@@ -64,13 +62,13 @@
 
 **Newsfirst**
 
-*Sinhala - *
+*Sinhala - 32319*
 *English - 26536*
-*Tamil - *
+*Tamil - 39387*
 
 **Newslk**
 
-*Sinhala - *
+*Sinhala - 23711*
 *English - 20266*
 *Tamil - 31519*
 
@@ -78,6 +76,6 @@
 
 *Have links to the english text in the sinhala & tamil news. sinhala & tamil news file contains the related english text too*
 
-*Sinhala - *
+*Sinhala - 4226*
 *English - 80414*
-*Tamil - *
+*Tamil - 2497*
