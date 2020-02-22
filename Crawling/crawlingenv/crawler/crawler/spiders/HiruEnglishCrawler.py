@@ -1,5 +1,6 @@
 import scrapy
 import json
+from pathlib import Path
 
 class HiruEnglishCrawler(scrapy.Spider):
     name = "HiruEnglishCrawler"
@@ -8,11 +9,8 @@ class HiruEnglishCrawler(scrapy.Spider):
     data['news'] = []
 
     start_urls = [
-        'http://www.hirunews.lk/sinhala/international-news.php',
-        'http://www.hirunews.lk/sinhala/local-news.php',
-        'http://www.hirunews.lk/sinhala/entertainment/',
-        '',
-        ''
+        'http://www.hirunews.lk/international-news.php',
+        'http://www.hirunews.lk/local-news.php'
     ]
 
     def writeToJson(self, header, time, content, docId):
@@ -27,8 +25,9 @@ class HiruEnglishCrawler(scrapy.Spider):
         #     'Content': content
         # })
 
-        with open("./data/hiru_news/" + docId + ".json", 'a') as outfile:  
-            json.dump(obj, outfile)
+        Path("./data/hiru_news").mkdir(parents=True, exist_ok=True)
+        with open("./data/hiru_news/" + docId + ".json", 'a', encoding="utf8") as outfile:  
+            json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
         for link in response.css('div.all-section-tittle ::attr(href)').getall():
@@ -43,10 +42,9 @@ class HiruEnglishCrawler(scrapy.Spider):
     def parseNews(self, response):
         header = response.css("div.container center h1 ::text").get()
         time = response.css("div.container center p ::text").get()
-        content = response.css("#article-phara ::text").get(all)
+        content = response.css("#article-phara ::text").getall()
         docId = response.url.split("/")[3]
         self.writeToJson(header, time, content, docId)
-
 
     # def parse(self, response):
     #     for link in response.css('div.lts-cntp ::attr(href)').getall():

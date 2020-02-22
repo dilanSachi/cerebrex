@@ -1,6 +1,7 @@
 import scrapy
 import json
 import io
+from pathlib import Path
 
 class HiruSinhalaCrawler(scrapy.Spider):
     name = "HiruSinhalaCrawler"
@@ -9,8 +10,10 @@ class HiruSinhalaCrawler(scrapy.Spider):
     data['news'] = []
 
     start_urls = [
-        'http://www.hirunews.lk/sinhala/',
-        'http://www.hirunews.lk/tamil/'
+        'http://www.hirunews.lk/sinhala/local-news.php',
+        'http://www.hirunews.lk/sinhala/international-news.php',
+        'http://www.hirunews.lk/tamil/local-news.php',
+        'http://www.hirunews.lk/tamil/international-news.php'
     ]
 
     def writeToJson(self, header, time, content, docId):
@@ -24,12 +27,12 @@ class HiruSinhalaCrawler(scrapy.Spider):
         #     'Time': time,
         #     'Content': content
         # })
-
+        Path("./data/hiru_news").mkdir(parents=True, exist_ok=True)
         with open("./data/hiru_news/" + docId + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
-        for link in response.css('div.lts-cntp ::attr(href)').getall():
+        for link in response.css('div.all-section-tittle ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
         titlelist = response.css('div.pagi ::attr(title)').getall()
@@ -39,8 +42,8 @@ class HiruSinhalaCrawler(scrapy.Spider):
                 yield scrapy.Request(linklist[i], self.parse)
 
     def parseNews(self, response):
-        header = response.css("div.lts-cntp2 ::text").getall()
-        content = response.css("div.lts-txt2 ::text").getall()
-        time = response.css('div.time ::text').get()
+        header = response.css("div.container center h1 ::text").get()
+        time = response.css("div.container center p ::text").get()
+        content = response.css("#article-phara ::text").getall()
         docId = response.url.split("/")[4]
         self.writeToJson(header, time, content, docId)

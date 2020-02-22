@@ -20,7 +20,7 @@
 
 **Hiru News**
 
-*Hiru Website has been updated and the current crawlers does not work for the new website*
+*Contains exact document matches and all 3 tranlsations are stored in one file*
 
 *Sinhala - *
 *English - *
@@ -72,12 +72,12 @@
 
 *Sinhala - *
 *English - 20266*
-*Tamil - *
+*Tamil - 31519*
 
 **Wsws**
 
 *Have links to the english text in the sinhala & tamil news. sinhala & tamil news file contains the related english text too*
 
 *Sinhala - *
-*English - *
+*English - 80414*
 *Tamil - *
