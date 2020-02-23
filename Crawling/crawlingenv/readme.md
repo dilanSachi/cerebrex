@@ -30,6 +30,8 @@
 *English - 7598*
 *Tamil - 9768*
 
+*Archive does not contain sinhala and tamil content*
+
 **Dailynews, Dinamina, Thinakaran**
 
 *Dinamina - 60197*

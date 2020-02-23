@@ -6,16 +6,15 @@ from random import randrange
 import time
 from scrapy.http import FormRequest
 
-class ArmyEnglishCrawler(scrapy.Spider):
-    name = "ArmyEnglishCrawler"
+class ArmyEnglishArchiveCrawler(scrapy.Spider):
+    name = "ArmyEnglishArchiveCrawler"
 
     data = {}
     data['news'] = []
 
     start_urls = [
-        'https://www.army.lk/photo-story',
-        'https://www.army.lk/news-highlight',
-        'https://www.army.lk/news-features'
+        'https://www.army.lk/news-archive',
+        'https://www.army.lk/news-archive-2002-2009'
     ]
 
     def writeToJson(self, header, time, content):
@@ -25,12 +24,12 @@ class ArmyEnglishCrawler(scrapy.Spider):
             'Content': content
         }
 
-        Path("./data/army/english").mkdir(parents=True, exist_ok=True)
-        with open("./data/army/english/" + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as outfile:  
+        Path("./data/army/english/archive").mkdir(parents=True, exist_ok=True)
+        with open("./data/army/english/archive/" + str(randrange(10000000)) + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
-        for link in response.css('ul.cVerticleList li h4 a ::attr(href)').getall():
+        for link in response.css('ul.cVerticleList li h2 a ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin("https://www.army.lk/" + link), callback = self.parseNews)
         yield scrapy.Request(response.urljoin(response.css("li.next ::attr(href)").get()), callback=self.parse)

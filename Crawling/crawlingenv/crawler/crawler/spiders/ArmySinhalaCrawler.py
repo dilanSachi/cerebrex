@@ -37,6 +37,6 @@ class ArmySinhalaCrawler(scrapy.Spider):
 
     def parseNews(self, response):
         header = response.css("div.container h1 ::text").get()
-        content = response.css("div.container p.textalign ::text").getall()
+        content = response.css("div.container p ::text").getall()
         time = response.css("div.container p.cDate ::text").get()
         self.writeToJson(header, time, content)
