@@ -13,7 +13,7 @@ class ArmyEnglishArchiveCrawler(scrapy.Spider):
     data['news'] = []
 
     start_urls = [
-        'https://www.army.lk/news-archive',
+        #'https://www.army.lk/news-archive',
         'https://www.army.lk/news-archive-2002-2009'
     ]
 
