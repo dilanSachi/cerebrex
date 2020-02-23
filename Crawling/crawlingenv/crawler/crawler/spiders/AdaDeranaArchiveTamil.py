@@ -32,7 +32,7 @@ class AdaDeranaArchiveTamil(scrapy.Spider):
         for i in range(2020, 2006, -1):
             for j in range(1, 13):
                 for k in range(1, 32):
-                    time.sleep(1)
+                    time.sleep(3)
                     formdata = {'srcCategory': '999', 'srcYear':str(i), 'srcMonth':str(j), 'srcDay':str(k), 'Submit':'Search'}
                     yield FormRequest(self.searchUrl, callback=self.parsePage, formdata=formdata)
 
@@ -40,7 +40,7 @@ class AdaDeranaArchiveTamil(scrapy.Spider):
         for link in response.css('div.story-text h4 a ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
-                time.sleep(1)
+                time.sleep(3)
 
     def parseNews(self, response):
         header = response.css("h2.completeNewsTitle ::text").get()
