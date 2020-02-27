@@ -27,8 +27,20 @@ class WswsTamilCrawler(scrapy.Spider):
             'Content': content
         }
 
-        Path("./data/wsws/tamil").mkdir(parents=True, exist_ok=True)
-        with open("./data/wsws/tamil/" + name + ".json", 'a', encoding="utf8") as outfile:  
+        Path("./data/wsws/tamil_parallel/tamil").mkdir(parents=True, exist_ok=True)
+        with open("./data/wsws/tamil_parallel/tamil/" + name + ".json", 'a', encoding="utf8") as outfile:  
+            json.dump(obj, outfile, ensure_ascii=False)
+
+    def writeToJsonEng(self, header, time, content, name, url):
+        obj = {  
+            'Header': header,
+            'Time': time,
+            'Url': url,
+            'Content': content
+        }
+
+        Path("./data/wsws/tamil_parallel/english").mkdir(parents=True, exist_ok=True)
+        with open("./data/wsws/tamil_parallel/english/" + name + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
@@ -50,7 +62,9 @@ class WswsTamilCrawler(scrapy.Spider):
             name = str(time) + str(randrange(1000000))
             if len(engLink) > 0:
                 yield scrapy.Request(response.urljoin(engLink[0] + "?" + parse.urlencode({"name": name})), callback=self.parseEngNews)
-        self.writeToJson(header, time, content, name)
+
+        url = response.url
+        self.writeToJson(header, time, content, name, url)
 
     def parseEngNews(self, response):
         header = response.css("div.clearfix div h2 ::text").getall()[1]
@@ -59,4 +73,4 @@ class WswsTamilCrawler(scrapy.Spider):
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
         url = response.url
-        self.writeToJson(header, time, content, name, url)
+        self.writeToJsonEng(header, time, content, name, url)

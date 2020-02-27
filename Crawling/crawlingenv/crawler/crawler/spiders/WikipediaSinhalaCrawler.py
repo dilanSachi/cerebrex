@@ -22,15 +22,34 @@ class WikipediaSinhalaCrawler(scrapy.Spider):
             'Url': url,
             'Content': content
         }
-        # self.data['news'].append({  
-        #     'Header': header,
-        #     'Time': time,
-        #     'Content': content
-        # })
 
-        Path("./data/wikipedia/aligned_news").mkdir(parents=True, exist_ok=True)
+        Path("./data/wikipedia/sinhala").mkdir(parents=True, exist_ok=True)
 
-        with open("./data/wikipedia/aligned_news/" + name + ".json", 'a', encoding="utf8") as outfile:  
+        with open("./data/wikipedia/sinhala/" + name + ".json", 'a', encoding="utf8") as outfile:  
+            json.dump(obj, outfile, ensure_ascii=False)
+
+    def writeToJsonEng(self, header, content, name, url):
+        obj = {  
+            'Header': header,
+            'Url': url,
+            'Content': content
+        }
+
+        Path("./data/wikipedia/english").mkdir(parents=True, exist_ok=True)
+
+        with open("./data/wikipedia/english/" + name + ".json", 'a', encoding="utf8") as outfile:  
+            json.dump(obj, outfile, ensure_ascii=False)
+
+    def writeToJsonTam(self, header, content, name, url):
+        obj = {  
+            'Header': header,
+            'Url': url,
+            'Content': content
+        }
+
+        Path("./data/wikipedia/tamil").mkdir(parents=True, exist_ok=True)
+
+        with open("./data/wikipedia/tamil/" + name + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
@@ -48,15 +67,23 @@ class WikipediaSinhalaCrawler(scrapy.Spider):
         ta = response.css("div.body li.interwiki-ta ::attr(href)").get()
         name = str(randrange(1000000))
         if (en):
-            yield scrapy.Request(en + "?" + parse.urlencode({"name": name}), callback = self.parseEngTamNews)
+            yield scrapy.Request(en + "?" + parse.urlencode({"name": name}), callback = self.parseEngNews)
         if (ta):
-             yield scrapy.Request(ta + "?" + parse.urlencode({"name": name}), callback = self.parseEngTamNews)
+             yield scrapy.Request(ta + "?" + parse.urlencode({"name": name}), callback = self.parseTamNews)
         self.writeToJson(header, content, name)
 
-    def parseEngTamNews(self, response):
+    def parseEngNews(self, response):
         header = response.css("h1.firstHeading ::text").getall()
         content = response.css("div.mw-content-ltr ::text").getall()
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
         url = response.url
-        self.writeToJson(header, content, name, url)
+        self.writeToJsonEng(header, content, name, url)
+
+    def parseTamNews(self, response):
+        header = response.css("h1.firstHeading ::text").getall()
+        content = response.css("div.mw-content-ltr ::text").getall()
+        parsed = urlparse(response.url)
+        name = parse_qs(parsed.query)["name"][0]
+        url = response.url
+        self.writeToJsonTam(header, content, name, url)
