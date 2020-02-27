@@ -13,10 +13,11 @@ class DailyNewsCrawler(scrapy.Spider):
         'http://dailynews.lk/date/2020-02-22'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
         # self.data['news'].append({  
@@ -42,4 +43,5 @@ class DailyNewsCrawler(scrapy.Spider):
         header = response.css("div.clearfix h1 ::text").get()
         content = response.css("div.field-items p ::text").getall()
         time = response.url.split("/")[3] + "/" + response.url.split("/")[4] + "/" + response.url.split("/")[5]
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

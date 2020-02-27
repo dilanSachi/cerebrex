@@ -17,10 +17,11 @@ class AdaDeranaArchiveEnglish(scrapy.Spider):
         'http://adaderana.lk/news_archive.php'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
 
@@ -46,4 +47,5 @@ class AdaDeranaArchiveEnglish(scrapy.Spider):
         header = response.css("article.news h1 ::text").get()
         content = response.css("div.news-content ::text").getall()
         time = response.css('p.news-datestamp ::text').get()
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

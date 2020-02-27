@@ -18,10 +18,11 @@ class ITNTamilCrawler(scrapy.Spider):
         'https://www.itnnews.lk/ta/sports/'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
 
@@ -39,4 +40,5 @@ class ITNTamilCrawler(scrapy.Spider):
         header = response.css("div.article-title h1 ::text").get()
         content = response.css("div.column9 ::text").getall()
         time = response.css('div.a-content span.meta ::text').get()
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

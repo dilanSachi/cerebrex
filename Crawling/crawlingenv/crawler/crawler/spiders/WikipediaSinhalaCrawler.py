@@ -16,9 +16,10 @@ class WikipediaSinhalaCrawler(scrapy.Spider):
         'https://si.wikipedia.org/wiki/%E0%B7%80%E0%B7%92%E0%B7%81%E0%B7%9A%E0%B7%82:%E0%B7%83%E0%B7%92%E0%B6%BA%E0%B7%85%E0%B7%94_%E0%B6%B4%E0%B7%92%E0%B6%A7%E0%B7%94'
     ]
 
-    def writeToJson(self, header, content, name):
+    def writeToJson(self, header, content, name, url):
         obj = {  
             'Header': header,
+            'Url': url,
             'Content': content
         }
         # self.data['news'].append({  
@@ -57,4 +58,5 @@ class WikipediaSinhalaCrawler(scrapy.Spider):
         content = response.css("div.mw-content-ltr ::text").getall()
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
-        self.writeToJson(header, content, name)
+        url = response.url
+        self.writeToJson(header, content, name, url)

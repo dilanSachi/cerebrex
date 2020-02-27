@@ -18,10 +18,11 @@ class ArmySinhalaCrawler(scrapy.Spider):
         'https://www.army.lk/si/si-news-features'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
 
@@ -39,4 +40,5 @@ class ArmySinhalaCrawler(scrapy.Spider):
         header = response.css("div.container h1 ::text").get()
         content = response.css("div.container p ::text").getall()
         time = response.css("div.container p.cDate ::text").get()
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

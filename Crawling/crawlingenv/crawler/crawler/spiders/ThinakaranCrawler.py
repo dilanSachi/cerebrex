@@ -13,10 +13,11 @@ class ThinakaranCrawler(scrapy.Spider):
         'http://www.thinakaran.lk/date/2020-02-22'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
         # self.data['news'].append({  
@@ -43,4 +44,5 @@ class ThinakaranCrawler(scrapy.Spider):
         header = response.css("div.clearfix h1 ::text").get()
         content = response.css("div.field-items div.even p ::text").getall()
         time = response.css("span.date-display-single ::text").get()
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

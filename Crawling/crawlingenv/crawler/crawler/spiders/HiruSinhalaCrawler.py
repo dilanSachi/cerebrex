@@ -3,8 +3,8 @@ import json
 import io
 from pathlib import Path
 
-class HiruSinhalaTamilCrawler(scrapy.Spider):
-    name = "HiruSinhalaTamilCrawler"
+class HiruSinhalaCrawler(scrapy.Spider):
+    name = "HiruSinhalaCrawler"
 
     data = {}
     data['news'] = []
@@ -12,14 +12,13 @@ class HiruSinhalaTamilCrawler(scrapy.Spider):
     start_urls = [
         'http://www.hirunews.lk/sinhala/local-news.php',
         'http://www.hirunews.lk/sinhala/international-news.php',
-        'http://www.hirunews.lk/tamil/local-news.php',
-        'http://www.hirunews.lk/tamil/international-news.php'
     ]
 
-    def writeToJson(self, header, time, content, docId):
+    def writeToJson(self, header, time, content, docId, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
         # self.data['news'].append({  
@@ -27,8 +26,8 @@ class HiruSinhalaTamilCrawler(scrapy.Spider):
         #     'Time': time,
         #     'Content': content
         # })
-        Path("./data/hiru_news").mkdir(parents=True, exist_ok=True)
-        with open("./data/hiru_news/" + docId + ".json", 'a', encoding="utf8") as outfile:  
+        Path("./data/hiru_news/sinhala").mkdir(parents=True, exist_ok=True)
+        with open("./data/hiru_news/sinhala/" + docId + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
@@ -46,4 +45,5 @@ class HiruSinhalaTamilCrawler(scrapy.Spider):
         time = response.css("div.container center p ::text").get()
         content = response.css("#article-phara ::text").getall()
         docId = response.url.split("/")[4]
-        self.writeToJson(header, time, content, docId)
+        url = response.url
+        self.writeToJson(header, time, content, docId, url)

@@ -18,10 +18,11 @@ class AdaDeranaSinhalaCrawler(scrapy.Spider):
         'http://biz.adaderana.lk/category/features/'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
 
@@ -40,4 +41,5 @@ class AdaDeranaSinhalaCrawler(scrapy.Spider):
         header = response.css("div.news-header h3 ::text").get()
         content = response.css("div.news-text ::text").getall()
         time = response.css('div.news-header p ::text').get()
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

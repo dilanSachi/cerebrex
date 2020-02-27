@@ -10,13 +10,10 @@ import json
 class ArmyEnglishBot(scrapy.Spider):
     name = "ArmyEnglishBot"
 
-    data = {}
-    data['news'] = []
-
     start_urls = [
-        #'https://www.army.lk/photo-story',
+        'https://www.army.lk/photo-story',
         'https://www.army.lk/news-highlight',
-        #'https://www.army.lk/news-features'
+        'https://www.army.lk/news-features'
     ]
     oldPhotoStoryLink = ""
     oldHighlightLink = ""
@@ -47,7 +44,6 @@ class ArmyEnglishBot(scrapy.Spider):
         elif("news-highlight" in url):
             self.oldHighlightLink = crawled["armyenglishnewshighlight"]
             crawled["armyenglishnewshighlight"] = firstlink
-            print("inside news hishglith.......................................................................")
         elif("news-features" in url):
             self.oldFeaturesLink = crawled["armyenglishnewsfeatures"]
             crawled["armyenglishnewsfeatures"] = firstlink
@@ -59,15 +55,11 @@ class ArmyEnglishBot(scrapy.Spider):
                 if (self.oldFeaturesLink != link and self.oldHighlightLink != link and self.oldPhotoStoryLink != link):
                     yield scrapy.Request(response.urljoin("https://www.army.lk/" + link), callback = self.parseNews)
                 else:
-                    print("done for today aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                     allnew = False
                     
                     break
         if (allnew):
             yield scrapy.Request(response.urljoin(response.css("li.next ::attr(href)").get()), callback=self.parseRestPages)
-        print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
-        print("fistlink " + firstlink)
-        print(crawled)
         with open("./DailyCrawlingBots/CrawlerLinks.json", 'w+', encoding="utf8") as outfile:
             json.dump(crawled, outfile, ensure_ascii=False)
     
@@ -83,7 +75,6 @@ class ArmyEnglishBot(scrapy.Spider):
                 if (self.oldFeaturesLink != link and self.oldHighlightLink != link and self.oldPhotoStoryLink != link):
                     yield scrapy.Request(response.urljoin("https://www.army.lk/" + link), callback = self.parseNews)
                 else:
-                    print("done for today aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                     allnew = False
                     break
         if (allnew):

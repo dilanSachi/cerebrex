@@ -16,10 +16,11 @@ class WswsEnglishCrawler(scrapy.Spider):
         'https://www.wsws.org/en/articles/'
     ]
 
-    def writeToJson(self, header, time, content):
+    def writeToJson(self, header, time, content, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
 
@@ -41,4 +42,5 @@ class WswsEnglishCrawler(scrapy.Spider):
         header = response.css("div.clearfix div h2 ::text").getall()[1]
         content = response.css("div.clearfix p ::text").getall()
         time = response.css('div.clearfix h5 ::text').getall()[-1]
-        self.writeToJson(header, time, content)
+        url = response.url
+        self.writeToJson(header, time, content, url)

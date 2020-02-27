@@ -19,10 +19,11 @@ class WswsSinhalaCrawler(scrapy.Spider):
         'https://www.wsws.org/sinhala/archive.html'
     ]
 
-    def writeToJson(self, header, time, content, name):
+    def writeToJson(self, header, time, content, name, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
 
@@ -56,4 +57,5 @@ class WswsSinhalaCrawler(scrapy.Spider):
         time = response.css('div.clearfix h5 ::text').getall()[-1]
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
-        self.writeToJson(header, time, content, name)
+        url = response.url
+        self.writeToJson(header, time, content, name, url)

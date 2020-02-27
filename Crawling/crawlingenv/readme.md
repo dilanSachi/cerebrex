@@ -27,7 +27,7 @@
 **Army**
 
 *Sinhala - 14472*
-*English - 7598*
+*English - 7598* + *5964 from archives* 
 *Tamil - 9768*
 
 *Archive does not contain sinhala and tamil content*

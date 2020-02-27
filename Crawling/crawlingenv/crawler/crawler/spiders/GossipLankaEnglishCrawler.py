@@ -16,10 +16,11 @@ class GossipLankaEnglishCrawler(scrapy.Spider):
         'https://english.gossiplankanews.com/'
     ]
 
-    def writeToJson(self, header, time, content, name):
+    def writeToJson(self, header, time, content, name, url):
         obj = {  
             'Header': header,
             'Time': time,
+            'Url': url,
             'Content': content
         }
         # self.data['news'].append({  
@@ -54,4 +55,5 @@ class GossipLankaEnglishCrawler(scrapy.Spider):
         time = response.url.split("/")[3] + "/" + response.url.split("/")[4]
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
-        self.writeToJson(header, time, content, name)
+        url = response.url
+        self.writeToJson(header, time, content, name, url)
