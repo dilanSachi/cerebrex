@@ -20,11 +20,6 @@ class DailyNewsCrawler(scrapy.Spider):
             'Url': url,
             'Content': content
         }
-        # self.data['news'].append({  
-        #     'Header': header,
-        #     'Time': time,
-        #     'Content': content
-        # })
 
         Path("./data/dailynews/english").mkdir(parents=True, exist_ok=True)
 

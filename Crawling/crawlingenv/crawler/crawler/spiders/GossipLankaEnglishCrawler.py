@@ -23,15 +23,21 @@ class GossipLankaEnglishCrawler(scrapy.Spider):
             'Url': url,
             'Content': content
         }
-        # self.data['news'].append({  
-        #     'Header': header,
-        #     'Time': time,
-        #     'Content': content
-        # })
+        Path("./data/gossiplanka/parallel/english").mkdir(parents=True, exist_ok=True)
 
-        Path("./data/gossiplanka/english").mkdir(parents=True, exist_ok=True)
+        with open("./data/gossiplanka/parallel/english/" + name + ".json", 'a', encoding="utf8") as outfile:  
+            json.dump(obj, outfile, ensure_ascii=False)
 
-        with open("./data/gossiplanka/english/" + name + ".json", 'a', encoding="utf8") as outfile:  
+    def writeToJsonSin(self, header, time, content, name, url):
+        obj = {  
+            'Header': header,
+            'Time': time,
+            'Url': url,
+            'Content': content
+        }
+        Path("./data/gossiplanka/parallel/sinhala").mkdir(parents=True, exist_ok=True)
+
+        with open("./data/gossiplanka/parallel/sinhala/" + name + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
@@ -46,7 +52,8 @@ class GossipLankaEnglishCrawler(scrapy.Spider):
         time = response.url.split("/")[3] + "_" + response.url.split("/")[4]
         sinhalaLink = response.css("div.entry a ::attr(href)").get()
         name = str(time) + str(randrange(1000000))
-        self.writeToJson(header, time, content, name)
+        url = response.url
+        self.writeToJson(header, time, content, name, url)
         yield scrapy.Request(response.urljoin(sinhalaLink + "?" + parse.urlencode({"name": name})), self.parseSinhala)
 
     def parseSinhala(self, response):
@@ -56,4 +63,4 @@ class GossipLankaEnglishCrawler(scrapy.Spider):
         parsed = urlparse(response.url)
         name = parse_qs(parsed.query)["name"][0]
         url = response.url
-        self.writeToJson(header, time, content, name, url)
+        self.writeToJsonSin(header, time, content, name, url)

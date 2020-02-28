@@ -20,11 +20,6 @@ class DinaminaCrawler(scrapy.Spider):
             'Url': url,
             'Content': content
         }
-        # self.data['news'].append({  
-        #     'Header': header,
-        #     'Time': time,
-        #     'Content': content
-        # })
 
         Path("./data/dailynews/sinhala").mkdir(parents=True, exist_ok=True)
 

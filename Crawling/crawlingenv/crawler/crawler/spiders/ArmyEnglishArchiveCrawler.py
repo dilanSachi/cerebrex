@@ -13,7 +13,7 @@ class ArmyEnglishArchiveCrawler(scrapy.Spider):
     data['news'] = []
 
     start_urls = [
-        #'https://www.army.lk/news-archive',
+        'https://www.army.lk/news-archive',
         'https://www.army.lk/news-archive-2002-2009'
     ]
 
@@ -32,7 +32,7 @@ class ArmyEnglishArchiveCrawler(scrapy.Spider):
     def parse(self, response):
         for link in response.css('ul.cVerticleList li h2 a ::attr(href)').getall():
             if link is not None:
-                yield scrapy.Request(response.urljoin("https://www.army.lk/" + link), callback = self.parseNews)
+                yield scrapy.Request(response.urljoin("https://www.army.lk" + link), callback = self.parseNews)
         yield scrapy.Request(response.urljoin(response.css("li.next ::attr(href)").get()), callback=self.parse)
 
     def parseNews(self, response):
