@@ -35,7 +35,7 @@ class ThinakaranCrawler(scrapy.Spider):
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
-        for link in response.css("span.field-content ::attr(href)").getall():
+        for link in response.css('#main span.field-content a ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
         yield scrapy.Request(response.css("li.date-prev a ::attr(href)").getall()[0], self.parse)

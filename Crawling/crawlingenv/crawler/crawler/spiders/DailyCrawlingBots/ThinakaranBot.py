@@ -1,15 +1,14 @@
 import scrapy
 from pathlib import Path
 from random import randrange
-from scrapy.http import FormRequest
 import json
 import datetime
 
-class DinaminaBot(scrapy.Spider):
-    name = "DinaminaBot"
+class ThinakaranBot(scrapy.Spider):
+    name = "ThinakaranBot"
 
     start_urls = [
-        'http://www.dinamina.lk/date/'
+        'http://www.thinakaran.lk/date/'
     ]
     oldLink = ""
 
@@ -25,8 +24,8 @@ class DinaminaBot(scrapy.Spider):
             'Content': content
         }
 
-        Path("../../../data/dailynews/bot/sinhala").mkdir(parents=True, exist_ok=True)
-        with open("../../../data/dailynews/bot/sinhala/" + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as ofile:  
+        Path("../../../data/dailynews/bot/tamil").mkdir(parents=True, exist_ok=True)
+        with open("../../../data/dailynews/bot/tamil/" + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as ofile:
             json.dump(obj, ofile, ensure_ascii=False)
 
     def parse(self, response):
@@ -40,13 +39,13 @@ class DinaminaBot(scrapy.Spider):
             firstlink = newsLinks[0]
             url = response.url
             print(crawled)
-            self.oldLink = crawled["dinamina"]
-            crawled["dinamina"] = firstlink
+            self.oldLink = crawled["thinakaran"]
+            crawled["thinakaran"] = firstlink
 
             for link in newsLinks:
                 if link is not None:
                     if (self.oldLink != link):
-                        yield scrapy.Request(response.urljoin("http://www.dinamina.lk" + link), callback = self.parseNews)
+                        yield scrapy.Request(response.urljoin("http://www.thinakaran.lk" + link), callback = self.parseNews)
                     else:
                         allnew = False
                         break
@@ -66,10 +65,10 @@ class DinaminaBot(scrapy.Spider):
 
         allnew = True
 
-        for link in response.css('span.field-content ::attr(href)').getall():
+        for link in response.css('#main span.field-content a ::attr(href)').getall():
             if link is not None:
                 if (self.oldLink != link):
-                    yield scrapy.Request(response.urljoin("http://www.dinamina.lk" + link), callback = self.parseNews)
+                    yield scrapy.Request(response.urljoin("http://www.thinakaran.lk" + link), callback = self.parseNews)
                 else:
                     allnew = False
                     break
@@ -78,7 +77,7 @@ class DinaminaBot(scrapy.Spider):
 
     def parseNews(self, response):
         header = response.css("div.clearfix h1 ::text").get()
-        content = response.css("div.field-items div.even div ::text").getall()
+        content = response.css("div.field-items div.even p ::text").getall()
         time = response.css("span.date-display-single ::text").get()
         url = response.url
         self.writeToJson(header, time, content, url)

@@ -1,10 +1,7 @@
 import scrapy
 import json
-import io
 from pathlib import Path
 from random import randrange
-import time
-from scrapy.http import FormRequest
 
 class ArmySinhalaCrawler(scrapy.Spider):
     name = "ArmySinhalaCrawler"
@@ -13,8 +10,8 @@ class ArmySinhalaCrawler(scrapy.Spider):
     data['news'] = []
 
     start_urls = [
-        'https://www.army.lk/si/si-photo-story',
         'https://www.army.lk/si/si-news-highlight',
+        'https://www.army.lk/si/si-photo-story',
         'https://www.army.lk/si/si-news-features'
     ]
 

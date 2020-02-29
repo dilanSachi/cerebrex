@@ -1,6 +1,7 @@
 import scrapy
 import json
 from pathlib import Path
+from random import randrange
 
 class NewsFirstTamilCrawler(scrapy.Spider):
     name = "NewsFirstTamilCrawler"
