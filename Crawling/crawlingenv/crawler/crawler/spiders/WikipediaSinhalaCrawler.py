@@ -66,11 +66,12 @@ class WikipediaSinhalaCrawler(scrapy.Spider):
         en = response.css("div.body li.interwiki-en ::attr(href)").get()
         ta = response.css("div.body li.interwiki-ta ::attr(href)").get()
         name = str(randrange(1000000))
+        url = response.url
         if (en):
             yield scrapy.Request(en + "?" + parse.urlencode({"name": name}), callback = self.parseEngNews)
         if (ta):
              yield scrapy.Request(ta + "?" + parse.urlencode({"name": name}), callback = self.parseTamNews)
-        self.writeToJson(header, content, name)
+        self.writeToJson(header, content, name, url)
 
     def parseEngNews(self, response):
         header = response.css("h1.firstHeading ::text").getall()
