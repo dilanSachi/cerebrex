@@ -50,7 +50,7 @@
 
 *Dinamina - 60197*
 
-*Dailynews - 101288*
+*Dailynews - 101188*
 
 *Thinakaran - 31792*
 

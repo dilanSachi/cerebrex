@@ -57,9 +57,6 @@ class DinaminaBot(scrapy.Spider):
             yield scrapy.Request(response.css("li.date-prev a ::attr(href)").getall()[0], callback=self.parse)
 
     def parseRestPages(self, response):
-        crawled = ""
-        with open("CrawlerLinks.json") as crawledlinks:
-            crawled=json.load(crawledlinks)
         allnew = True
         for link in response.css('span.field-content ::attr(href)').getall():
             if link is not None:

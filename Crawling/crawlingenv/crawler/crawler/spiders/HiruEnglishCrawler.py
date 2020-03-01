@@ -20,12 +20,6 @@ class HiruEnglishCrawler(scrapy.Spider):
             'Url': url,
             'Content': content
         }
-        # self.data['news'].append({  
-        #     'Header': header,
-        #     'Time': time,
-        #     'Content': content
-        # })
-
         Path("./data/hiru_news/english").mkdir(parents=True, exist_ok=True)
         with open("./data/hiru_news/english/" + docId + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)

@@ -65,10 +65,6 @@ class ArmyTamilBot(scrapy.Spider):
             json.dump(crawled, outfile, ensure_ascii=False)
     
     def parseRestPages(self, response):
-        crawled = ""
-        with open("./DailyCrawlingBots/CrawlerLinks.json") as crawledlinks:
-            crawled=json.load(crawledlinks)
-
         allnew = True
 
         for link in response.css('ul.cVerticleList li h4 a ::attr(href)').getall():

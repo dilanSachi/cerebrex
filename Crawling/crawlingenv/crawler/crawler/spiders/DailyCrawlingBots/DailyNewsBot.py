@@ -38,7 +38,6 @@ class DailyNewsBot(scrapy.Spider):
         newsLinks = response.css('span.field-content ::attr(href)').getall()
         if (len(newsLinks) > 0):
             firstlink = newsLinks[0]
-            url = response.url
             print(crawled)
             self.oldLink = crawled["dailynews"]
             crawled["dailynews"] = firstlink
@@ -60,10 +59,6 @@ class DailyNewsBot(scrapy.Spider):
         
     
     def parseRestPages(self, response):
-        crawled = ""
-        with open("CrawlerLinks.json") as crawledlinks:
-            crawled=json.load(crawledlinks)
-
         allnew = True
 
         for link in response.css('span.field-content ::attr(href)').getall():

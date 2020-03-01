@@ -11,7 +11,7 @@ class HiruSinhalaCrawler(scrapy.Spider):
 
     start_urls = [
         'http://www.hirunews.lk/sinhala/local-news.php',
-        'http://www.hirunews.lk/sinhala/international-news.php',
+        'http://www.hirunews.lk/sinhala/international-news.php'
     ]
 
     def writeToJson(self, header, time, content, docId, url):

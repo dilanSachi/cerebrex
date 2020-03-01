@@ -59,12 +59,7 @@ class ThinakaranBot(scrapy.Spider):
         
     
     def parseRestPages(self, response):
-        crawled = ""
-        with open("CrawlerLinks.json") as crawledlinks:
-            crawled=json.load(crawledlinks)
-
         allnew = True
-
         for link in response.css('#main span.field-content a ::attr(href)').getall():
             if link is not None:
                 if (self.oldLink != link):
