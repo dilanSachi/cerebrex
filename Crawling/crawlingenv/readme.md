@@ -8,15 +8,21 @@
 *AdaDerana archives is not yet crawlable in Sinhala. English and Tamil works fine.*
 *AdaDerana Biz news is not present in Tamil language.*
 
-*Sinhala - *
-*English - *
-*Tamil - *
+*Sinhala -*
+
+*English -*
+
+*Tamil -*
 
 **Wikipedia**
 
-*WikipediaSinhalaCrawler will crawl thorugh all the available sinhala pages and also it will crawl the respective English and Tamil pages if they are available*
+*The documents are parallel*
 
-*Sinhala - 29865*
+*Sinhala - 29866*
+
+*English - 19837*
+
+*Tamil - 11358*
 
 **Hiru News**
 
@@ -24,10 +30,18 @@
 
 *count - 125107*
 
+*Sinhala - 94919*
+
+*English - 49624*
+
+*Tamil - 87308*
+
 **Army**
 
 *Sinhala - 14472*
+
 *English - 7598* + *5964 from archives* 
+
 *Tamil - 9768*
 
 *Archive does not contain sinhala and tamil content*
@@ -35,49 +49,65 @@
 **Dailynews, Dinamina, Thinakaran**
 
 *Dinamina - 60197*
+
 *Dailynews - 101288*
-*Thinakaran - 31787*
+
+*Thinakaran - 31792*
 
 **Gossiplanka**
 
 *Has links to the sinhala translation in the english text. The english text file contains the sinhala version too*
 
-*Sinhala - 13616*
-*English - 11194*
+*Sinhala - 16670*
+
+*English - 11208*
+
+*Parallel data(Sinhala & English) - 2708*
 
 **ITN**
 
 *Sinhala - 25101*
+
 *English - 10191*
+
 *Tamil - 7775*
 
 **Lankapuwath**
 
-*Sinhala - 8823*
-*English - 4029*
+*Sinhala - 8892*
+
+*English - 4065*
 
 **Lankaviews**
 
-*Sinhala - 8119*
-*English - 1530*
+*Sinhala - 8156*
+
+*English - 1532*
+
 *Tamil - 1166*
 
 **Newsfirst**
 
-*Sinhala - 32319*
-*English - 26536*
-*Tamil - 39387*
+*Sinhala - 34635*
+
+*English - 27105*
+
+*Tamil - 44318*
 
 **Newslk**
 
-*Sinhala - 23711*
-*English - 20266*
-*Tamil - 31519*
+*Sinhala - 23708*
+
+*English - 20320*
+
+*Tamil - 31659*
 
 **Wsws**
 
 *Have links to the english text in the sinhala & tamil news. sinhala & tamil news file contains the related english text too*
 
-*Sinhala - 4226*
+*Sinhala - 4228 (Parallel English - 2171)*
+
 *English - 80414*
-*Tamil - 2497*
+
+*Tamil - 2493 (Parallel English - 1300)*  

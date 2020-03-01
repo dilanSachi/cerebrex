@@ -23,7 +23,7 @@ class DinaminaCrawler(scrapy.Spider):
 
         Path("./data/dailynews/sinhala").mkdir(parents=True, exist_ok=True)
 
-        name = str(randrange(1000000))
+        name = str(randrange(10000000))
 
         with open("./data/dailynews/sinhala/" + name + ".json", 'a', encoding="utf8") as outfile:  
             json.dump(obj, outfile, ensure_ascii=False)
