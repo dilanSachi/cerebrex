@@ -1,7 +1,8 @@
 from scrapy.crawler import CrawlerProcess
 import schedule 
 import time
-import DailyNewsBot, DinaminaBot, ThinakaranBot, ArmyEnglishBot, ArmySinhalaBot, ArmyTamilBot, HiruSinhalaBot, HiruTamilBot, HiruEnglishBot, ITNEnglishBot, ITNSinhalaBot, ITNTamilBot
+import DailyNewsBot, DinaminaBot, ThinakaranBot, ArmyEnglishBot, ArmySinhalaBot, ArmyTamilBot, HiruSinhalaBot, HiruTamilBot,\
+    HiruEnglishBot, ITNEnglishBot, ITNSinhalaBot, ITNTamilBot, NewsFirstEnglishBot, NewsFirstSinhalaBot, NewsFirstTamilBot
 
 def rundaily():
     process = CrawlerProcess()
@@ -15,11 +16,14 @@ def rundaily():
     # process.crawl(HiruTamilBot.HiruTamilBot)
     # process.crawl(HiruEnglishBot.HiruEnglishBot)
     # process.crawl(ITNEnglishBot.ITNEnglishBot)
-    #process.crawl(ITNSinhalaBot.ITNSinhalaBot)
-    process.crawl(ITNTamilBot.ITNTamilBot)
+    # process.crawl(ITNSinhalaBot.ITNSinhalaBot)
+    # process.crawl(ITNTamilBot.ITNTamilBot)
+    # process.crawl(NewsFirstEnglishBot.NewsFirstEnglishBot)
+    # process.crawl(NewsFirstSinhalaBot.NewsFirstSinhalaBot)
+    process.crawl(NewsFirstTamilBot.NewsFirstTamilBot)
     process.start()
 
-schedule.every().day.at("22:28").do(rundaily)
+schedule.every().day.at("23:11").do(rundaily)
 
 while True: 
   

@@ -20,12 +20,6 @@ class NewsFirstTamilCrawler(scrapy.Spider):
             'Url': url,
             'Content': content
         }
-        # self.data['news'].append({  
-        #     'Header': header,
-        #     'Time': time,
-        #     'Content': content
-        # })
-
         Path("./data/news_first/tamil").mkdir(parents=True, exist_ok=True)
 
         with open("./data/news_first/tamil/" + str(randrange(10000000)) + ".json", 'a', encoding="utf8") as outfile:  

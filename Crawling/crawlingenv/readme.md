@@ -26,10 +26,6 @@
 
 **Hiru News**
 
-*Contains exact document matches and all 3 tranlsations are stored in one file*
-
-*count - 125107*
-
 *Sinhala - 94919*
 
 *English - 49624*
