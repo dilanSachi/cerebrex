@@ -1,20 +1,20 @@
 import scrapy
-import json
 from pathlib import Path
 from random import randrange
+import json
+import datetime
 from urllib import parse
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
-class WswsSinhalaCrawler(scrapy.Spider):
-    name = "WswsSinhalaCrawler"
-
-    data = {}
-    data['news'] = []
+class WswsSinhalaBot(scrapy.Spider):
+    name = "WswsSinhalaBot"
 
     start_urls = [
         'https://www.wsws.org/sinhala/archive.html'
     ]
+
+    months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 
     def writeToJson(self, header, time, content, name, url):
         obj = {  
@@ -24,28 +24,35 @@ class WswsSinhalaCrawler(scrapy.Spider):
             'Content': content
         }
 
-        Path("./data/wsws/sinhala_parallel/sinhala").mkdir(parents=True, exist_ok=True)
-        with open("./data/wsws/sinhala_parallel/sinhala/" + name + ".json", 'a', encoding="utf8") as outfile:  
-            json.dump(obj, outfile, ensure_ascii=False)
+        Path("../../../data/wsws/bot/sinhala_parallel/sinhala").mkdir(parents=True, exist_ok=True)
+        with open("../../../data/wsws/bot/sinhala_parallel/sinhala/" + name + ".json", 'a', encoding="utf8") as ofile:
+            json.dump(obj, ofile, ensure_ascii=False)
 
     def writeEngToJson(self, header, time, content, name, url):
-        obj = {  
+        obj = {
             'Header': header,
             'Time': time,
             'Url': url,
             'Content': content
         }
 
-        Path("./data/wsws/sinhala_parallel/english").mkdir(parents=True, exist_ok=True)
-        with open("./data/wsws/sinhala_parallel/english/" + name + ".json", 'a', encoding="utf8") as outfile:  
+        Path("../../../data/wsws/bot/sinhala_parallel/english").mkdir(parents=True, exist_ok=True)
+        with open("../../../data/wsws/bot/sinhala_parallel/english/" + name + ".json", 'a', encoding="utf8") as outfile:
             json.dump(obj, outfile, ensure_ascii=False)
 
     def parse(self, response):
-        for link in response.css('div.category p ::attr(href)').getall():
-            if link is not None:
-                yield scrapy.Request(response.urljoin(link), callback = self.parseNewsMonth)
+        newsMonths = response.css('div.category p ::attr(href)').getall()
+        today = datetime.date.today()
+        first = today.replace(day=1)
+        prevMonth = (first - datetime.timedelta(days=1)).strftime("%m")
+        year = (first - datetime.timedelta(days=1)).strftime("%Y")
 
-    def parseNewsMonth(self, response):
+        for monthLink in newsMonths:
+            if monthLink is not None and (year + "-" + self.months[int(prevMonth) - 1]) in monthLink:
+                yield scrapy.Request(response.urljoin(monthLink), callback = self.parseMonth)
+                break
+
+    def parseMonth(self, response):
         for link in response.css('div.category ul li ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin(link), callback=self.parseNews)

@@ -86,7 +86,7 @@
 
 *Sinhala - 34635*
 
-*English - 27105*
+*English - 41557*
 
 *Tamil - 44318*
 

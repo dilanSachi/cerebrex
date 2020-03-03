@@ -32,7 +32,7 @@ class NewsFirstEnglishBot(scrapy.Spider):
         newsLinks1 = response.css('div.sub-1-news-block ::attr(href)').getall()
         newsLinks2 = response.css('div.main-news-heading ::attr(href)').getall()
         
-        yesterday = (datetime.date.today()).strftime("%Y/%m/%d")
+        yesterday = (datetime.date.today() + datetime.timedelta(days=-1)).strftime("%Y/%m/%d")
 
         if (len(newsLinks1) > 0 or len(newsLinks2) > 0):
             for link in newsLinks1:
@@ -53,28 +53,6 @@ class NewsFirstEnglishBot(scrapy.Spider):
                 yield scrapy.Request(response.css('a.next ::attr(href)').get(), self.parse)
         else:
             yield scrapy.Request(response.css('a.next ::attr(href)').get(), self.parse)
-    
-    # def parseRestPages(self, response):
-    #     allnew = True
-    #     newsLinks1 = response.css('div.sub-1-news-block ::attr(href)').getall()
-    #     newsLinks2 = response.css('div.main-news-heading ::attr(href)').getall()
-    #     for link in newsLinks1:
-    #         if link is not None and "/category/" not in link:
-    #             if link != self.oldLink:
-    #                 yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
-    #             else:
-    #                 allnew = False
-    #                 break
-    
-    #     for i in newsLinks2:
-    #         if link is not None and "/category/" not in link:
-    #             if link != self.oldLink:
-    #                 yield scrapy.Request(response.urljoin(link), callback = self.parseNews)
-    #             else:
-    #                 allnew = False
-    #                 break
-    #     if (allnew):
-    #         yield scrapy.Request(response.css('a.next ::attr(href)').get(), self.parseRestPages)
 
     def parseNews(self, response):
         header = response.css("h1.text-left ::text").getall()

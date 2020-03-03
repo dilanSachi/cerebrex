@@ -1,13 +1,11 @@
 import scrapy
-import json
-import io
 from pathlib import Path
 from random import randrange
-import time
-from scrapy.http import FormRequest
+import json
+import datetime
 
-class WswsEnglishCrawler(scrapy.Spider):
-    name = "WswsEnglishCrawler"
+class WswsEnglishBot(scrapy.Spider):
+    name = "WswsEnglishBot"
 
     start_urls = [
         'https://www.wsws.org/en/articles/'
@@ -21,16 +19,22 @@ class WswsEnglishCrawler(scrapy.Spider):
             'Content': content
         }
 
-        Path("./data/wsws/english").mkdir(parents=True, exist_ok=True)
-        with open("./data/wsws/english/" + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as outfile:  
-            json.dump(obj, outfile, ensure_ascii=False)
+        Path("../../../data/wsws/bot/english").mkdir(parents=True, exist_ok=True)
+        with open("../../../data/wsws/bot/english/" + str(randrange(1000000)) + ".json", 'a', encoding="utf8") as ofile:
+            json.dump(obj, ofile, ensure_ascii=False)
 
     def parse(self, response):
-        for link in response.css('div.category p ::attr(href)').getall():
-            if link is not None:
-                yield scrapy.Request(response.urljoin(link), callback = self.parseNewsMonth)
+        newsMonths = response.css('div.category p ::attr(href)').getall()
+        today = datetime.date.today()
+        first = today.replace(day=1)
+        prevMonth = (first - datetime.timedelta(days=1)).strftime("%Y/%m")
 
-    def parseNewsMonth(self, response):
+        for monthLink in newsMonths:
+            if monthLink is not None and prevMonth in monthLink:
+                yield scrapy.Request(response.urljoin(monthLink), callback = self.parseMonth)
+                break
+
+    def parseMonth(self, response):
         for link in response.css('div.category ul li ::attr(href)').getall():
             if link is not None:
                 yield scrapy.Request(response.urljoin(link), callback=self.parseNews)

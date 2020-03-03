@@ -1,8 +1,10 @@
 from scrapy.crawler import CrawlerProcess
 import schedule 
 import time
+import datetime
 import DailyNewsBot, DinaminaBot, ThinakaranBot, ArmyEnglishBot, ArmySinhalaBot, ArmyTamilBot, HiruSinhalaBot, HiruTamilBot,\
-    HiruEnglishBot, ITNEnglishBot, ITNSinhalaBot, ITNTamilBot, NewsFirstEnglishBot, NewsFirstSinhalaBot, NewsFirstTamilBot
+    HiruEnglishBot, ITNEnglishBot, ITNSinhalaBot, ITNTamilBot, NewsFirstEnglishBot, NewsFirstSinhalaBot, NewsFirstTamilBot,\
+    WswsEnglishBot, WswsSinhalaBot, WswsTamilBot
 
 def rundaily():
     process = CrawlerProcess()
@@ -20,21 +22,27 @@ def rundaily():
     # process.crawl(ITNTamilBot.ITNTamilBot)
     # process.crawl(NewsFirstEnglishBot.NewsFirstEnglishBot)
     # process.crawl(NewsFirstSinhalaBot.NewsFirstSinhalaBot)
-    process.crawl(NewsFirstTamilBot.NewsFirstTamilBot)
+    # process.crawl(NewsFirstTamilBot.NewsFirstTamilBot)
     process.start()
 
-schedule.every().day.at("23:11").do(rundaily)
+def runmonthly():
+    today = datetime.datetime.now().strftime("%d")
+    if today == "03":
+        process = CrawlerProcess()
+        # process.crawl(WswsEnglishBot.WswsEnglishBot)
+        # process.crawl(WswsSinhalaBot.WswsSinhalaBot)
+        process.crawl(WswsTamilBot.WswsTamilBot)
+        process.start()
 
-while True: 
-  
+schedule.every().day.at("09:29").do(rundaily)
+schedule.every().day.at("13:35").do(runmonthly)
+
+while True:
     # Checks whether a scheduled task  
     # is pending to run or not 
-    schedule.run_pending()
+    #schedule.run_pending()
     time.sleep(1)
+
+    runmonthly()
+
     print("running")
-
-
-# print("------------------------------------------------------------------------------")
-# print(self.oldLink)
-# print(link)
-# print("------------------------------------------------------------------------------")
