@@ -8,9 +8,9 @@
 *AdaDerana archives is not yet crawlable in Sinhala. English and Tamil works fine.*
 *AdaDerana Biz news is not present in Tamil language.*
 
-*Sinhala -*
+*Sinhala - 6187*
 
-*English -*
+*English - 7526*
 
 *Tamil -*
 
@@ -42,6 +42,9 @@
 
 *Archive does not contain sinhala and tamil content*
 
+*Contains parallel images*
+*But in some cases images in the english news are not found in the sinhala news*
+
 **Dailynews, Dinamina, Thinakaran**
 
 *Dinamina - 60197*
@@ -52,7 +55,7 @@
 
 **Gossiplanka**
 
-*Has links to the sinhala translation in the english text. The english text file contains the sinhala version too*
+*Has links to the sinhala translation in the english text.*
 
 *Sinhala - 16670*
 
@@ -68,11 +71,15 @@
 
 *Tamil - 7775*
 
+*Most of english news does not contain images, also the thumbnails of the news are different*
+
 **Lankapuwath**
 
 *Sinhala - 8892*
 
 *English - 4065*
+
+*Some news contain parallel images & some images are different*
 
 **Lankaviews**
 
@@ -82,6 +89,8 @@
 
 *Tamil - 1166*
 
+*Has parallel images. But href is different*
+
 **Newsfirst**
 
 *Sinhala - 34635*
@@ -89,6 +98,8 @@
 *English - 41557*
 
 *Tamil - 44318*
+
+*Same news has different images*
 
 **Newslk**
 
@@ -106,4 +117,6 @@
 
 *English - 80414*
 
-*Tamil - 2493 (Parallel English - 1300)*  
+*Tamil - 2493 (Parallel English - 1300)*
+
+*Tamil old archives - 1832 (Parallel English - 553)*

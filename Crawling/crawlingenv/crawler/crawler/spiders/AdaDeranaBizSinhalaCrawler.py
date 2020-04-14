@@ -5,8 +5,8 @@ from pathlib import Path
 from random import randrange
 import time
 
-class AdaDeranaSinhalaCrawler(scrapy.Spider):
-    name = "AdaDeranaSinhalaCrawler"
+class AdaDeranaBizSinhalaCrawler(scrapy.Spider):
+    name = "AdaDeranaBizSinhalaCrawler"
 
     data = {}
     data['news'] = []
